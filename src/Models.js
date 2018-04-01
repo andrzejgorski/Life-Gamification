@@ -58,8 +58,9 @@
 
   LifeGamification.models.Model = Model;
 
-  class Skill {
+  class Skill extends Model {
     constructor(name, exp, timerData){
+      super();
       this.name = name;
       this.exp = exp;
       this.calcLevel();
@@ -96,8 +97,9 @@
     }
   }
 
-  class Timer{
-    constructor(timerData){
+  class Timer extends Model {
+    constructor(timerData) {
+      super();
       this.history = timerData.history;
       this.startTime = timerData.startTime;
     }
