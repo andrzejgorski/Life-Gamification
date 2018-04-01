@@ -1,11 +1,33 @@
 (function(){
+  'use strict';
+
   LifeGamification.models = {};
   const expTable = [];
   const skillsCollection = {};
   const minute = 60000;
   LifeGamification.skillsCollection = skillsCollection;
 
-  class Skill{
+  LifeGamification.models.Observable = class Observable {
+    constructor () {
+      this.events = {};
+    }
+
+    addEventListener(eventName, callback) {
+      if (!(eventName in this.events)) {
+        this.events[eventName] = [];
+      }
+      this.events[eventName].push(callback);
+    }
+
+    fireEvent(eventName, data) {
+      if (Array.isArray(this.events[eventName])) {
+        const events = this.events[eventName].concat([]);
+        events.forEach(evt => evt(data));
+      }
+    }
+  };
+
+  class Skill {
     constructor(name, exp, timerData){
       this.name = name;
       this.exp = exp;
