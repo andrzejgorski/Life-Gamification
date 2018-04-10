@@ -280,7 +280,7 @@ img {
     clear: both;
 }
 
-.timer {
+#timer {
     width: 60%;
     margin: auto;
     margin-top: 3em;
@@ -326,7 +326,7 @@ img {
     margin: 1em 0.5em;
 }
 
-.timer p{
+#timer p{
     padding: 0 1em;
     vertical-align: center;
 }
@@ -341,7 +341,7 @@ img {
     margin-top: 2em;
 }
 
-.timer select {
+#timer select {
     font-size: 1.5em;
     height: 1.5em;
     border-radius: 1em;
@@ -356,11 +356,11 @@ img {
     font-size: 2em;
 }
 
-.timer input {
+#timer input {
     width: 30px;
 }
 
-.timer .timer__pomodoro-options p{
+#timer .timer__pomodoro-options p{
     margin-left: 2em;
 }
 
@@ -431,7 +431,7 @@ img {
     #all-skills{
         width: 100%;
     }
-    .timer{
+    #timer{
         width: 100%;
     }
 }

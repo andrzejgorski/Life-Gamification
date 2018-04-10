@@ -19,7 +19,6 @@
     _cleanContent() {
       $("#content").html("");
       $(".import-export").html("");
-      $(".timer").html("");
       $(".history").html("");
     }
 

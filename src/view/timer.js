@@ -21,9 +21,11 @@
 
   LifeGamification.timer.render = function () {
     render(LifeGamification.skillsCollection);
+    LifeGamification.timer.handleTimerFinishButtons();
   }
 
   const render = function (skills) {
+    $('#content').append(`<div id="timer"> </div>`)
     let code = `
       <div class="timer__wrapper">
         <p class="timer__header">Current Timers:</p>
@@ -53,7 +55,7 @@
         <button class="timer__start-button">Start</button>
       </div>
     `;
-    $(".timer").html(code);
+    $("#timer").html(code);
     handleTimerStartButton();
     handleTimer(LifeGamification.skillsView);
   }
@@ -176,6 +178,6 @@
   }
 
   LifeGamification.timer.handleTimerFinishButtons = function () {
-    $(".timer").on("click", ".timer__finish-button", finishTask);
+    $("#timer").on("click", ".timer__finish-button", finishTask);
   }
 })();

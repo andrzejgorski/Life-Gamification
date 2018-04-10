@@ -9,5 +9,4 @@ document.addEventListener('DOMContentLoaded', function () {
 
   LifeGamification.models.fillExpTable();
   LifeGamification.view.main.startView();
-  LifeGamification.timer.handleTimerFinishButtons();
 });
