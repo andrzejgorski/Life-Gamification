@@ -19,14 +19,10 @@
       return this._currentView;
     }
 
-    _cleanContent() {
-      $("#content").html("");
-    }
-
     render() {
       // TODO Move it somewhere.
       LifeGamification.skillsView = [];
-      this._cleanContent();
+      $("#content").html("");
       if (!!(this.currentView)) {
         this.currentView.render();
       }
