@@ -6,6 +6,9 @@
     set currentView(view) {
       if (!!(this._currentView)) {
         $(`#${this._currentView.name}`).removeClass('active');
+        if (!!(this._currentView.clear)) {
+          this._currentView.clear();
+        }
       }
       $(`#${view.name}`).addClass('active');
       this._currentView = view;
@@ -24,8 +27,6 @@
       // TODO Move it somewhere.
       LifeGamification.skillsView = [];
       this._cleanContent();
-      // TODO Move clearInterval function to different module
-      clearInterval(LifeGamification.timer.refreshTimer);
       if (!!(this.currentView)) {
         this.currentView.render();
       }

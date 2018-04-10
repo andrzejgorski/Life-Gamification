@@ -20,6 +20,7 @@
   }
 
   LifeGamification.timer.render = function () {
+    LifeGamification.timer.clear();
     render(LifeGamification.skillsCollection);
     LifeGamification.timer.handleTimerFinishButtons();
   }
@@ -149,10 +150,16 @@
         displayWorkingTime(number, text);
       }
     }
-    updateTimes();
-    LifeGamification.timer.refreshTimer = setInterval(function(){
+    if (skillsView.length > 0) {
       updateTimes();
-    }, 1 * second);
+      LifeGamification.timer.refreshTimer = setInterval(function(){
+        updateTimes();
+      }, 1 * second);
+    }
+  }
+
+  LifeGamification.timer.clear = function () {
+    clearInterval(LifeGamification.timer.refreshTimer);
   }
 
   const taskFinishSound = function() {
