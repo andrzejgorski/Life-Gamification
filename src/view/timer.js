@@ -76,7 +76,7 @@
 
       if(!skill.timer.startTime){
         LifeGamification.models.startWork(skill, taskType)
-          .then(LifeGamification.main.resetView);
+          .then(LifeGamification.view.resetView);
       } else{
         console.log("Finish your current work first!");
       }
@@ -164,7 +164,7 @@
     LifeGamification.models.finishWork(skill)
       .then(function(timeWorked){
         alert(`You have gained ${timeWorked} experience in ${skill.name}`);
-        LifeGamification.main.resetView();
+        LifeGamification.view.resetView();
       });
   }
 

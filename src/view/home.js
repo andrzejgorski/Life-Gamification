@@ -58,7 +58,7 @@
     $(".all-skills").on("click", ".skill__remove", function () {
       const skillNr = this.id.replace('remove', '');
       LifeGamification.models.removeSkill(LifeGamification.skillsView[skillNr])
-        .then(LifeGamification.main.resetView);
+        .then(LifeGamification.view.resetView);
     });
   }
 

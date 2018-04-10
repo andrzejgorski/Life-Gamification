@@ -28,7 +28,7 @@
       LifeGamification.repository.updateSkills(skills)
         .then(function () {
           LifeGamification.models.createSkillsCollection(skills);
-          LifeGamification.main.resetView();
+          LifeGamification.view.resetView();
         });
     });
   }

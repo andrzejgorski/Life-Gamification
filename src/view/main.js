@@ -1,8 +1,8 @@
 (function(){
-  LifeGamification.main = {};
+  LifeGamification.view = {};
   LifeGamification.skillsView = [];
 
-  const resetActives = function() {
+  const resetActives = function () {
     $('#Home').removeClass('active');
     $('#Edit').removeClass('active');
     $('#Import-Export').removeClass('active');
@@ -10,7 +10,7 @@
     $('#History').removeClass('active');
   }
 
-  LifeGamification.main.resetView = function () {
+  LifeGamification.view.resetView = function () {
     LifeGamification.skillsView = [];
     resetActives();
     $(".all-skills").html("");
@@ -20,37 +20,37 @@
     $(".history").html("");
     $(".welcome-message").css("display", "none");
     clearInterval(LifeGamification.timer.refreshTimer);
-    LifeGamification.main.render(LifeGamification.skillsCollection);
+    LifeGamification.view.render(LifeGamification.skillsCollection);
   }
 
-  LifeGamification.main.handleHeaderButtons = function () {
+  LifeGamification.view.handleHeaderButtons = function () {
     $('.header-bar__menu-icon').click(function () {
       LifeGamification.currentView = "Home";
-      LifeGamification.main.resetView();
+      LifeGamification.view.resetView();
     });
     $('#Home').click(function () {
       LifeGamification.currentView = "Home";
-      LifeGamification.main.resetView();
+      LifeGamification.view.resetView();
     });
     $('#Edit').click(function () {
       LifeGamification.currentView = "Edit";
-      LifeGamification.main.resetView();
+      LifeGamification.view.resetView();
     });
     $('#Import-Export').click(function () {
       LifeGamification.currentView = "Import/Export";
-      LifeGamification.main.resetView();
+      LifeGamification.view.resetView();
     });
     $('#Timer').click(function () {
       LifeGamification.currentView = "Timer";
-      LifeGamification.main.resetView();
+      LifeGamification.view.resetView();
     });
     $('#History').click(function () {
       LifeGamification.currentView = "History";
-      LifeGamification.main.resetView();
+      LifeGamification.view.resetView();
     });
   }
 
-  LifeGamification.main.render = function (skills) {
+  LifeGamification.view.render = function (skills) {
     if(LifeGamification.currentView === "Home"){
       LifeGamification.home.render(skills);
       $('#Home').addClass('active');
@@ -73,9 +73,9 @@
     }
   }
 
-  LifeGamification.main.startView = function () {
+  LifeGamification.view.startView = function () {
     LifeGamification.repository.getSkills()
       .then(LifeGamification.models.createSkillsCollection)
-      .then(LifeGamification.main.render);
+      .then(LifeGamification.view.render);
   }
 })();

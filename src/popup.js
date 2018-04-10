@@ -10,8 +10,8 @@ document.addEventListener('DOMContentLoaded', function () {
   LifeGamification.currentView = "Home"; //Home, Edit, Import/Export, Timer
 
   LifeGamification.models.fillExpTable();
-  LifeGamification.main.startView();
+  LifeGamification.view.startView();
   LifeGamification.home.handleSkillButtons();
   LifeGamification.timer.handleTimerFinishButtons();
-  LifeGamification.main.handleHeaderButtons();
+  LifeGamification.view.handleHeaderButtons();
 });
