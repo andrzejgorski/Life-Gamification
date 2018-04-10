@@ -2,23 +2,48 @@
   LifeGamification.view = {};
   LifeGamification.skillsView = [];
 
-  const resetActives = function () {
-    $('#Home').removeClass('active');
-    $('#Edit').removeClass('active');
-    $('#Import-Export').removeClass('active');
-    $('#Timer').removeClass('active');
-    $('#History').removeClass('active');
+  class LifeGamificationMainView {
+    constructor () {
+      this.currentView = null;
+      this.subViews = {};
+    }
+
+    _resetActives () {
+      $('#Home').removeClass('active');
+      $('#Edit').removeClass('active');
+      $('#Import-Export').removeClass('active');
+      $('#Timer').removeClass('active');
+      $('#History').removeClass('active');
+    }
+
+    _cleanContent () {
+      $(".all-skills").html("");
+      $(".import-export").html("");
+      $(".add-skill").html("");
+      $(".timer").html("");
+      $(".history").html("");
+      $(".welcome-message").css("display", "none");
+    }
+
+    render () {
+      this._resetActives();
+      this._cleanContent();
+      if (!!(this.currentView)) {
+        this.currentView.render();
+      }
+    }
+
+    startView () {
+      LifeGamification.repository.getSkills()
+        .then(LifeGamification.models.createSkillsCollection)
+        .then(LifeGamification.view.render);
+    }
   }
 
   LifeGamification.view.resetView = function () {
     LifeGamification.skillsView = [];
-    resetActives();
-    $(".all-skills").html("");
-    $(".import-export").html("");
-    $(".add-skill").html("");
-    $(".timer").html("");
-    $(".history").html("");
-    $(".welcome-message").css("display", "none");
+    LifeGamification.view.main._resetActives();
+    LifeGamification.view.main._cleanContent();
     clearInterval(LifeGamification.timer.refreshTimer);
     LifeGamification.view.render(LifeGamification.skillsCollection);
   }
@@ -73,9 +98,5 @@
     }
   }
 
-  LifeGamification.view.startView = function () {
-    LifeGamification.repository.getSkills()
-      .then(LifeGamification.models.createSkillsCollection)
-      .then(LifeGamification.view.render);
-  }
+  LifeGamification.view.main = new LifeGamificationMainView();
 })();
