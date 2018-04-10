@@ -17,12 +17,10 @@
     }
 
     _cleanContent() {
-      $(".all-skills").html("");
+      $("#content").html("");
       $(".import-export").html("");
-      $(".add-skill").html("");
       $(".timer").html("");
       $(".history").html("");
-      $(".welcome-message").css("display", "none");
     }
 
     render() {

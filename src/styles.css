@@ -77,7 +77,7 @@ img {
     background-color: #00D1A0;
 }
 
-.welcome-message {
+#welcome-message {
     display: none;
     margin: auto;
     margin-top: 3em;
@@ -125,7 +125,7 @@ img {
     resize: none;
 }
 
-.all-skills {
+#all-skills {
     margin: auto;
     margin-top: 3em;
     width: 60%;
@@ -228,14 +228,14 @@ img {
     font-weight: lighter;
 }
 
-.add-skill {
+#add-skill {
     margin: auto;
     margin-bottom: 7em;
     width: 60%;
     min-width: 30em;
 }
 
-.add-skill__name {
+#add-skill__name {
     float: left;
     border-radius: 1em 0 0 1em;
     border: 2px solid #C8E8E0;
@@ -249,7 +249,7 @@ img {
     overflow: hidden;
 }
 
-.add-skill__button {
+#add-skill__button {
     float: left;
     border-radius: 0 1em 1em 0;
     height: 4em;
@@ -261,20 +261,20 @@ img {
     cursor: pointer;
 }
 
-.add-skill__button-helper{
+#add-skill__button-helper{
     display: inline-block;
     height: 100%;
     vertical-align: middle;
 }
 
-.add-skill__button-icon {
+#add-skill__button-icon {
     height: 2.5em;
     width: auto;
     margin: auto;
     vertical-align: middle;
 }
 
-.add-skill:after {
+#add-skill:after {
     content: "";
     display: table;
     clear: both;
@@ -425,10 +425,10 @@ img {
         width: 95%;
         overflow-x: hidden;
     }
-    .add-skill{
+    #add-skill{
         width: 100%;
     }
-    .all-skills{
+    #all-skills{
         width: 100%;
     }
     .timer{
