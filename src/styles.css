@@ -90,7 +90,7 @@ img {
     text-align: center;
 }
 
-.import-export {
+#import-export {
     margin: auto;
     margin-top: 3em;
     width: 50%;
@@ -112,7 +112,7 @@ img {
     margin-bottom: 0.1em;
 }
 
-.import-export__json {
+#import-export__json {
     display: block;
     margin: 1em 0 0 0;
     height: 8em;
@@ -371,7 +371,7 @@ img {
     width: 120px;
 }
 
-.history {
+#history {
     width: 60%;
     margin: auto;
     margin-top: 3em;
@@ -383,12 +383,12 @@ img {
     padding: 2em 1em;
 }
 
-.history p {
+#history p {
     padding: 0 1em;
     font-size: 1.2em;
 }
 
-.history button {
+#history button {
     display: inline-block;
     border-radius: 0.3em;
     border: 1px solid #00D1A0;
@@ -398,12 +398,12 @@ img {
     padding: 0.1em;
 }
 
-.history select {
+#history select {
     height: 1.5em;
     border-radius: 1em;
 }
 
-.history__wrapper input {
+#history__wrapper input {
     width: 40px;
 }
 
@@ -421,7 +421,7 @@ img {
     a.header-bar__menu-icon{
         display: none;
     }
-    .import-export{
+    #import-export{
         width: 95%;
         overflow-x: hidden;
     }

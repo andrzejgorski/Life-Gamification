@@ -18,8 +18,6 @@
 
     _cleanContent() {
       $("#content").html("");
-      $(".import-export").html("");
-      $(".history").html("");
     }
 
     render() {

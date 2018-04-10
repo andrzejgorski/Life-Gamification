@@ -2,9 +2,14 @@
   LifeGamification.history = {};
   LifeGamification.history.name = "History";
 
-  LifeGamification.history.render = function(skills){
+  LifeGamification.history.render = function() {
+    render(LifeGamification.skillsCollection);
+  }
+
+  const render = function(skills){
+    $('#content').append(`<div id="history"> </div>`)
     let code = `
-      <div class="history__wrapper">
+      <div id="history__wrapper">
         <p class="history__message">Select skill and time limits:</p>
         <p>Skill:
           <select class="history__select-skill">
@@ -20,7 +25,7 @@
         <p class="history__result"></p>
       </div>
     `;
-    $(".history").html(code);
+    $("#history").html(code);
     handleHistoryFilterButton();
   }
 
