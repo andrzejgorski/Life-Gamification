@@ -1,5 +1,6 @@
 (function(){
   LifeGamification.history = {};
+  LifeGamification.history.name = "History";
 
   LifeGamification.history.render = function(skills){
     let code = `

@@ -1,5 +1,6 @@
 (function(){
   LifeGamification.timer = {};
+  LifeGamification.timer.name = "Timer";
   const minute = 60000;
   const second = 1000;
 
@@ -18,7 +19,11 @@
     return "";
   }
 
-  LifeGamification.timer.render = function (skills) {
+  LifeGamification.timer.render = function () {
+    render(LifeGamification.skillsCollection);
+  }
+
+  const render = function (skills) {
     let code = `
       <div class="timer__wrapper">
         <p class="timer__header">Current Timers:</p>
@@ -76,7 +81,9 @@
 
       if(!skill.timer.startTime){
         LifeGamification.models.startWork(skill, taskType)
-          .then(LifeGamification.view.resetView);
+          .then(() => {
+            LifeGamification.view.main.currentView = LifeGamification.timer;
+          });
       } else{
         console.log("Finish your current work first!");
       }
@@ -164,7 +171,7 @@
     LifeGamification.models.finishWork(skill)
       .then(function(timeWorked){
         alert(`You have gained ${timeWorked} experience in ${skill.name}`);
-        LifeGamification.view.resetView();
+        LifeGamification.view.main.currentView = LifeGamification.timer;
       });
   }
 

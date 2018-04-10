@@ -1,5 +1,6 @@
 (function(){
   LifeGamification.edit = {};
+  LifeGamification.edit.name = "Edit";
 
   const skillEditHTML = function (number) {
     return (`
@@ -14,7 +15,7 @@
     LifeGamification.home.viewLevelAndExp(skill);
   }
 
-  LifeGamification.edit.render = function (skills) {
+  const render = function (skills) {
     for (let name in skills) {
       appendEditSkill(skills[name]);
     }
@@ -25,6 +26,10 @@
       </div>
     `);
     handleAddSkillButton();
+  }
+
+  LifeGamification.edit.render = function () {
+    render(LifeGamification.skillsCollection);
   }
 
   const handleAddSkillButton = function () {

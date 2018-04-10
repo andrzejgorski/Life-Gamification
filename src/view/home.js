@@ -1,5 +1,6 @@
 (function(){
   LifeGamification.home = {};
+  LifeGamification.home.name = "Home";
 
   //Functions to both Home and Edit views.
 
@@ -37,7 +38,7 @@
     `);
   }
 
-  LifeGamification.home.handleSkillButtons = function () {
+  const handleSkillButtons = function () {
     const update_exp = function (skillNr) {
       const addedExp = parseInt($("#addVal" + skillNr).val());
       $("#addVal" + skillNr).val('1');
@@ -58,7 +59,7 @@
     $(".all-skills").on("click", ".skill__remove", function () {
       const skillNr = this.id.replace('remove', '');
       LifeGamification.models.removeSkill(LifeGamification.skillsView[skillNr])
-        .then(LifeGamification.view.resetView);
+        .then(LifeGamification.view.main.render);
     });
   }
 
@@ -74,7 +75,7 @@
     LifeGamification.home.viewLevelAndExp(skill);
   }
 
-  LifeGamification.home.render = function (skills) {
+  const render = function (skills) {
     let skillsEmpty = true;
     for (let name in skills) {
       skillsEmpty = false;
@@ -83,5 +84,10 @@
     if(skillsEmpty === true){
       $('.welcome-message').css("display", "block");
     }
+    handleSkillButtons();
+  }
+
+  LifeGamification.home.render = function () {
+    render(LifeGamification.skillsCollection);
   }
 })();

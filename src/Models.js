@@ -141,7 +141,7 @@
       }
       return sessionsNum;
     }
-    
+
     getWorkInfo() {
       const type = this.history[this.startTime].type;
       const timeLapsed = LifeGamification.utils.calcTime(this.startTime);
