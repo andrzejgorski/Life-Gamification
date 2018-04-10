@@ -2,6 +2,8 @@
   LifeGamification.edit = {};
   LifeGamification.edit.name = "Edit";
 
+  let skillsView = [];
+
   const skillEditHTML = function (number) {
     return (`
     	<div class="skill">
@@ -10,12 +12,14 @@
   }
 
   const appendEditSkill = function (skill) {
-    $('#all-skills').append(skillEditHTML(LifeGamification.skillsView.length));
-    LifeGamification.skillsView.push(skill);
-    LifeGamification.home.viewLevelAndExp(skill);
+    $('#all-skills').append(skillEditHTML(skillsView.length));
+    skillsView.push(skill);
+    LifeGamification.home.viewLevelAndExp(skillsView, skill);
   }
 
   const render = function (skills) {
+    skillsView = [];
+    $('#content').html('');
     $('#content').append(`<div id="all-skills"> </div>`)
     $('#content').append(`<div id="add-skill"> </div>`)
     for (let name in skills) {
@@ -29,6 +33,17 @@
     `);
     handleAddSkillButton();
     LifeGamification.home.handleSkillButtons();
+    appendRemoveButtons();
+  }
+
+  const appendRemoveButtons = function () {
+    $("#all-skills").on("click", ".skill__remove", function () {
+      const skillNr = this.id.replace('remove', '');
+      LifeGamification.models.removeSkill(skillsView[skillNr])
+        .then(() => {
+          LifeGamification.view.main.currentView = LifeGamification.edit;
+        });
+    });
   }
 
   LifeGamification.edit.render = function () {
@@ -40,7 +55,9 @@
       const skillName = $('#add-skill__name').val();
       $('#add-skill__name').val('');
       LifeGamification.models.addSkill(skillName)
-        .then(appendEditSkill);
+        .then((skill) => {
+          LifeGamification.edit.render();
+        });
     }
 
     $('#add-skill__button-icon').click(add_skill);

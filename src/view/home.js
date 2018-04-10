@@ -2,14 +2,16 @@
   LifeGamification.home = {};
   LifeGamification.home.name = "Home";
 
+  let skillsView = [];
+
   const welcome_message = `
     <p>Welcome to Life Gamification!<br>
     To add your first skill go to Edit skills.</p>`;
 
   //Functions to both Home and Edit views.
 
-  LifeGamification.home.viewLevelAndExp = function (skill) {
-    const number = LifeGamification.skillsView.findIndex(function (element) {
+  LifeGamification.home.viewLevelAndExp = function (skillsCollection, skill) {
+    const number = skillsCollection.findIndex(function (element) {
       return element === skill;
     });
     $(`.level${number}`).html(`${skill.level}`);
@@ -46,9 +48,11 @@
     const update_exp = function (skillNr) {
       const addedExp = parseInt($("#addVal" + skillNr).val());
       $("#addVal" + skillNr).val('1');
-      const skill = LifeGamification.skillsView[skillNr];
+      const skill = skillsView[skillNr];
       LifeGamification.models.updateExp(skill, addedExp)
-        .then(LifeGamification.home.viewLevelAndExp);
+        .then((skill) => {
+          LifeGamification.home.viewLevelAndExp(skillsView, skill);
+        });
     }
     $("#all-skills").on("click", ".progress-bar__add-button", function () {
       const skillNr = this.id.replace('add', '');
@@ -60,12 +64,6 @@
         update_exp(skillNr);
       }
     });
-    $("#all-skills").on("click", ".skill__remove", function () {
-      const skillNr = this.id.replace('remove', '');
-      const skill = LifeGamification.skillsView[skillNr];
-      LifeGamification.models.removeSkill(skill)
-        .then(LifeGamification.view.main.currentView = LifeGamification.edit);
-    });
   }
 
   //End of functions to both Home and Edit views.
@@ -75,9 +73,9 @@
   }
 
   const appendHomeSkill = function (skill) {
-    $('#all-skills').append(skillHomeHTML(LifeGamification.skillsView.length));
-    LifeGamification.skillsView.push(skill);
-    LifeGamification.home.viewLevelAndExp(skill);
+    $('#all-skills').append(skillHomeHTML(skillsView.length));
+    skillsView.push(skill);
+    LifeGamification.home.viewLevelAndExp(skillsView, skill);
   }
 
   const render = function (skills) {
@@ -96,6 +94,7 @@
   }
 
   LifeGamification.home.render = function () {
+    skillsView = [];
     render(LifeGamification.skillsCollection);
   }
 })();

@@ -1,6 +1,5 @@
 (function(){
   LifeGamification.view = {};
-  LifeGamification.skillsView = [];
 
   class LifeGamificationMainView {
     set currentView(view) {
@@ -20,8 +19,6 @@
     }
 
     render() {
-      // TODO Move it somewhere.
-      LifeGamification.skillsView = [];
       $("#content").html("");
       if (!!(this.currentView)) {
         this.currentView.render();
@@ -53,7 +50,6 @@
       }
     }
   }
-
 
   LifeGamification.view.main = new LifeGamificationMainView();
 })();
