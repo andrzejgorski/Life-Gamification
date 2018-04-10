@@ -29,7 +29,7 @@
     }
 
     startView () {
-      LifeGamification.view.main._initMenuButtons();
+      this._createMenu();
       LifeGamification.repository.getSkills()
         .then(LifeGamification.models.createSkillsCollection)
         .then(function () {
@@ -37,27 +37,23 @@
         })
     }
 
-    _initMenuButtons () {
-      $('.header-bar__menu-icon').click(() => {
-        this.currentView = LifeGamification.home;
-      });
-      $('#Home').click(() => {
-        this.currentView = LifeGamification.home;
-      });
-      $('#Edit').click(() => {
-        this.currentView = LifeGamification.edit;
-      });
-      $('#Import-Export').click(() => {
-        this.currentView = LifeGamification.importExport;
-      });
-      $('#Timer').click(() => {
-        this.currentView = LifeGamification.timer;
-      });
-      $('#History').click(() => {
-        this.currentView = LifeGamification.history;
-      });
+    _createMenu () {
+      const menuConfig = {
+        '.header-bar__menu-icon': LifeGamification.home,
+        '#Home': LifeGamification.home,
+        '#Edit': LifeGamification.edit,
+        '#Import-Export': LifeGamification.importExport,
+        '#Timer': LifeGamification.timer,
+        '#History': LifeGamification.history,
+      }
+      for (let name in menuConfig) {
+        $(name).click(() => {
+          this.currentView = menuConfig[name];
+        });
+      }
     }
   }
+
 
   LifeGamification.view.main = new LifeGamificationMainView();
 })();
