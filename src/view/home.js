@@ -1,6 +1,6 @@
 (function(){
-  LifeGamification.home = {};
-  LifeGamification.home.name = "Home";
+  LifeGamification.view.home = {};
+  LifeGamification.view.home.name = "Home";
 
   let skillsView = [];
 
@@ -10,7 +10,7 @@
 
   //Functions to both Home and Edit views.
 
-  LifeGamification.home.viewLevelAndExp = function (skillsCollection, skill) {
+  LifeGamification.view.home.viewLevelAndExp = function (skillsCollection, skill) {
     const number = skillsCollection.findIndex(function (element) {
       return element === skill;
     });
@@ -25,7 +25,7 @@
     $(`.fill${number}`).css('width', `${percent}%`);
   }
 
-  LifeGamification.home.skillHTML = function (number) {
+  LifeGamification.view.home.skillHTML = function (number) {
     return (`
       <a class="skill__level-number level${number}">-1</a>
       <a class="skill__level-text">lvl</a>
@@ -44,14 +44,14 @@
     `);
   }
 
-  LifeGamification.home.handleSkillButtons = function () {
+  LifeGamification.view.home.handleSkillButtons = function () {
     const update_exp = function (skillNr) {
       const addedExp = parseInt($("#addVal" + skillNr).val());
       $("#addVal" + skillNr).val('1');
       const skill = skillsView[skillNr];
       LifeGamification.skillsCollection.updateExp(skill, addedExp)
         .then((skill) => {
-          LifeGamification.home.viewLevelAndExp(skillsView, skill);
+          LifeGamification.view.home.viewLevelAndExp(skillsView, skill);
         });
     }
     $("#all-skills").on("click", ".progress-bar__add-button", function () {
@@ -69,13 +69,13 @@
   //End of functions to both Home and Edit views.
 
   const skillHomeHTML = function (number) {
-    return (`<div class="skill">`) + LifeGamification.home.skillHTML(number);
+    return (`<div class="skill">`) + LifeGamification.view.home.skillHTML(number);
   }
 
   const appendHomeSkill = function (skill) {
     $('#all-skills').append(skillHomeHTML(skillsView.length));
     skillsView.push(skill);
-    LifeGamification.home.viewLevelAndExp(skillsView, skill);
+    LifeGamification.view.home.viewLevelAndExp(skillsView, skill);
   }
 
   const render = function (skills) {
@@ -90,10 +90,10 @@
     if (skillsEmpty) {
       $('#content').append(`<div id="welcome-message"> ${welcome_message}</div>`)
     }
-    LifeGamification.home.handleSkillButtons();
+    LifeGamification.view.home.handleSkillButtons();
   }
 
-  LifeGamification.home.render = function () {
+  LifeGamification.view.home.render = function () {
     skillsView = [];
     render(LifeGamification.skillsCollection.data);
   }

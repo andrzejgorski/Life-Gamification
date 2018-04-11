@@ -8,13 +8,13 @@
     return (`
     	<div class="skill">
         <img src="../../assets/x.svg"class="skill__remove" id="remove${number}">
-      `) + LifeGamification.home.skillHTML(number);
+      `) + LifeGamification.view.home.skillHTML(number);
   }
 
   const appendEditSkill = function (skill) {
     $('#all-skills').append(skillEditHTML(skillsView.length));
     skillsView.push(skill);
-    LifeGamification.home.viewLevelAndExp(skillsView, skill);
+    LifeGamification.view.home.viewLevelAndExp(skillsView, skill);
   }
 
   const render = function (skills) {
@@ -32,7 +32,7 @@
       </div>
     `);
     handleAddSkillButton();
-    LifeGamification.home.handleSkillButtons();
+    LifeGamification.view.home.handleSkillButtons();
     appendRemoveButtons();
   }
 

@@ -30,14 +30,14 @@
       LifeGamification.repository.getSkills()
         .then(function (json) {
           LifeGamification.skillsCollection.loadData(json);
-          LifeGamification.view.main.currentView = LifeGamification.home;
+          LifeGamification.view.main.currentView = LifeGamification.view.home;
         })
     }
 
     _createMenu () {
       const menuConfig = {
-        '.header-bar__menu-icon': LifeGamification.home,
-        '#Home': LifeGamification.home,
+        '.header-bar__menu-icon': LifeGamification.view.home,
+        '#Home': LifeGamification.view.home,
         '#Edit': LifeGamification.edit,
         '#Import-Export': LifeGamification.importExport,
         '#Timer': LifeGamification.timer,
