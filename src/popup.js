@@ -4,7 +4,6 @@ let skillsNames = [];
 const maxLevel = 210;
 
 document.addEventListener('DOMContentLoaded', function () {
-  console.log(" ");
   console.log("Application begins.");
 
   LifeGamification.models.fillExpTable();
