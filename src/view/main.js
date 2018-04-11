@@ -64,6 +64,7 @@
       $("#content").html("");
       this._contentView = view;
       if (!!(this.contentView)) {
+        this.contentView.rootEl = this._contentTag;
         this.contentView.render();
       }
     }

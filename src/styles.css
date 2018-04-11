@@ -125,7 +125,7 @@ img {
     resize: none;
 }
 
-#all-skills {
+#content {
     margin: auto;
     margin-top: 3em;
     width: 60%;
@@ -193,12 +193,11 @@ img {
     float: left;
     margin: 0 1px 0 2px;
     background-color: #00D1A0;
-    height: 2.2em;
+    height: 2.0em;
     width: 65%;
     text-align: center;
     padding: 0.6em;
     color: white;
-    box-sizing: border-box;
     margin: auto;
 }
 

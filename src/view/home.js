@@ -8,6 +8,93 @@
     <p>Welcome to Life Gamification!<br>
     To add your first skill go to Edit skills.</p>`;
 
+  class HomeView extends Abstract.View {
+    constructor() {
+      super();
+
+    }
+
+    _addLevel(father, skill) {
+      const levelNumber = doc.createElement('a');
+      levelNumber.setAttribute("class", "skill__level-number");
+      levelNumber.innerHTML = skill.level;
+      father.appendChild(levelNumber);
+
+      const levelText = doc.createElement('a');
+      levelText.setAttribute("class", "skill__level-text");
+      levelText.innerHTML = "lvl";
+      father.appendChild(levelText);
+    }
+
+    _addName(father, skill) {
+      const name = doc.createElement('a');
+      name.setAttribute("class", "skill__name");
+      name.innerHTML = skill.name;
+      father.appendChild(name);
+    }
+
+    _addProgressBar(father, skill) {
+      const barWrapper = doc.createElement('div');
+      barWrapper.setAttribute("class", "progress-bar__wrapper");
+      father.appendChild(barWrapper);
+
+      let percent = Math.floor(
+        100 * skill.expInThisLevel / skill.expTillNextLevel);
+
+      const container = doc.createElement('span');
+      container.setAttribute("class", "progress-bar__container");
+      barWrapper.appendChild(container);
+
+      const pg_container = doc.createElement('span');
+      pg_container.setAttribute("class", "progress-bar__container-fill");
+      pg_container.innerHTML = `${percent}%`;
+      pg_container.setAttribute("style", `width: ${percent}%`);
+      container.appendChild(pg_container);
+
+      const pg_buttons = doc.createElement('div');
+      pg_buttons.setAttribute("class", "progress-bar__buttons");
+      barWrapper.appendChild(pg_buttons);
+
+      const input = doc.createElement('input');
+      input.setAttribute("class", "progress-bar__add-input");
+      input.setAttribute("type", "number");
+      input.setAttribute("value", "1");
+      pg_buttons.appendChild(input);
+
+      const addButton = doc.createElement('span');
+      addButton.setAttribute("class", "progress-bar__add-button");
+      addButton.innerHTML = "+";
+      pg_buttons.appendChild(addButton);
+    }
+
+    _addExp(father, skill) {
+      const exp = doc.createElement('a');
+      exp.setAttribute("class", "skill_experience");
+      exp.innerHTML = `${skill.expInThisLevel}/${skill.expTillNextLevel}`;
+      father.appendChild(exp);
+    }
+
+    renderskill(father, skill) {
+      const skillDiv = doc.createElement('div');
+      skillDiv.setAttribute("class", "skill");
+      this._addLevel(skillDiv, skill);
+      this._addName(skillDiv, skill);
+      this._addProgressBar(skillDiv, skill);
+      this._addExp(skillDiv, skill);
+      father.appendChild(skillDiv);
+    }
+
+    render () {
+      skillsView = LifeGamification.skillsCollection.data;
+      this.allSkills = doc.createElement('div');
+      this.allSkills.setAttribute("id", "all-skills");
+      this.rootEl.appendChild(this.allSkills);
+      for (let key in skillsView) {
+        this.renderskill(this.allSkills, skillsView[key]);
+      }
+    }
+  }
+
   //Functions to both Home and Edit views.
 
   LifeGamification.view.home.viewLevelAndExp = function (skillsCollection, skill) {
@@ -97,4 +184,6 @@
     skillsView = [];
     render(LifeGamification.skillsCollection.data);
   }
+
+  LifeGamification.view.home = new HomeView();
 })();
