@@ -1,8 +1,7 @@
 (function(){
   'use strict';
 
-  LifeGamification.models = {};
-  LifeGamification.models.Observable = class Observable {
+  Abstract.Observable = class Observable {
     constructor () {
       this.events = {};
     }
@@ -22,7 +21,7 @@
     }
   };
 
-  const Model = class Model extends LifeGamification.models.Observable {
+  Abstract.Model = class Model extends Abstract.Observable {
     constructor() {
       super();
       this.properties = {};
@@ -50,6 +49,4 @@
       this.fireEvent('change');
     }
   };
-
-  LifeGamification.models.Model = Model;
 })();

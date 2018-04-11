@@ -1,9 +1,10 @@
 (function(){
   'use strict';
 
+  LifeGamification.models = {};
   const expTable = [];
 
-  class Skill extends LifeGamification.models.Model {
+  class Skill extends Abstract.Model {
     constructor(name, exp, timerData){
       super();
       this.name = name;
@@ -42,7 +43,7 @@
     }
   }
 
-  class SkillsCollection extends LifeGamification.models.Model {
+  class SkillsCollection extends Abstract.Model {
     constructor (json) {
       super();
       this.data = {};

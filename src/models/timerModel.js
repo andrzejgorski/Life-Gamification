@@ -2,7 +2,7 @@
   'use strict';
 
   const minute = 60000;
-  class Timer extends LifeGamification.models.Model {
+  class Timer extends Abstract.Model {
     constructor(timerData) {
       super();
       this.history = timerData.history;
