@@ -24,6 +24,7 @@
       this.exp += exp;
       this.calcLevel();
       this.calcExpTillNextLevel();
+      this.fireEvent('changed', null);
     }
 
     calcLevel() {
@@ -57,6 +58,10 @@
           this.data[skillName] = new Skill(
             skillName, skillData.exp, skillData.timer
           );
+          this.data[skillName].addEventListener("changed", () => {
+            this.save()
+            .then(() => {this.fireEvent("changed", null);});
+          });
         }
       }
     }

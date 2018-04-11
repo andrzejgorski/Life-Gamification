@@ -1,189 +1,82 @@
 (function(){
-  LifeGamification.view.home = {};
-  LifeGamification.view.home.name = "Home";
-
-  let skillsView = [];
-
   const welcome_message = `
     <p>Welcome to Life Gamification!<br>
     To add your first skill go to Edit skills.</p>`;
 
-  class HomeView extends Abstract.View {
+  LifeGamification.view.HomeView = class HomeView extends Abstract.View {
     constructor() {
-      super();
-
+      super(LifeGamification.skillsCollection, null);
+      this.name = 'Home';
     }
 
-    _addLevel(father, skill) {
-      const levelNumber = doc.createElement('a');
-      levelNumber.setAttribute("class", "skill__level-number");
-      levelNumber.innerHTML = skill.level;
-      father.appendChild(levelNumber);
-
-      const levelText = doc.createElement('a');
-      levelText.setAttribute("class", "skill__level-text");
-      levelText.innerHTML = "lvl";
-      father.appendChild(levelText);
-    }
-
-    _addName(father, skill) {
-      const name = doc.createElement('a');
-      name.setAttribute("class", "skill__name");
-      name.innerHTML = skill.name;
-      father.appendChild(name);
+    _addSkillExp(skill, input) {
+      const addedExp = parseInt(input["value"]);
+      input.setAttribute("value", "1");
+      skill.addExp(addedExp);
     }
 
     _addProgressBar(father, skill) {
-      const barWrapper = doc.createElement('div');
-      barWrapper.setAttribute("class", "progress-bar__wrapper");
-      father.appendChild(barWrapper);
-
+      const barWrapper = this._createElement(
+        'div', {"class": "progress-bar__wrapper"}, '', father);
+      const container = this._createElement(
+        'span', {"class": "progress-bar__container"}, '', barWrapper);
       let percent = Math.floor(
         100 * skill.expInThisLevel / skill.expTillNextLevel);
 
-      const container = doc.createElement('span');
-      container.setAttribute("class", "progress-bar__container");
-      barWrapper.appendChild(container);
+      this._createElement(
+        'span', {
+          "class": "progress-bar__container-fill",
+          "style": `width: ${percent}%`
+        },
+        `${percent}%`, container
+      );
 
-      const pg_container = doc.createElement('span');
-      pg_container.setAttribute("class", "progress-bar__container-fill");
-      pg_container.innerHTML = `${percent}%`;
-      pg_container.setAttribute("style", `width: ${percent}%`);
-      container.appendChild(pg_container);
+      const pg_buttons = this._createElement(
+        'div', {"class": "progress-bar__buttons"}, '', barWrapper);
+      const input = this._createElement('input', {
+          "class": "progress-bar__add-input",
+          "type": "number",
+          "value": "1"
+        }, '', pg_buttons
+      );
+      input.onkeyup = (event) => {
+        if (event.keyCode === 13) {
+          this._addSkillExp(skill, input);
+        }
+      };
 
-      const pg_buttons = doc.createElement('div');
-      pg_buttons.setAttribute("class", "progress-bar__buttons");
-      barWrapper.appendChild(pg_buttons);
-
-      const input = doc.createElement('input');
-      input.setAttribute("class", "progress-bar__add-input");
-      input.setAttribute("type", "number");
-      input.setAttribute("value", "1");
-      pg_buttons.appendChild(input);
-
-      const addButton = doc.createElement('span');
-      addButton.setAttribute("class", "progress-bar__add-button");
-      addButton.innerHTML = "+";
-      pg_buttons.appendChild(addButton);
-    }
-
-    _addExp(father, skill) {
-      const exp = doc.createElement('a');
-      exp.setAttribute("class", "skill_experience");
-      exp.innerHTML = `${skill.expInThisLevel}/${skill.expTillNextLevel}`;
-      father.appendChild(exp);
+      const addButton = this._createElement(
+        'span', {"class": "progress-bar__add-button"}, "+", pg_buttons);
+      addButton.onclick = () => {
+        this._addSkillExp(skill, input);
+      }
     }
 
     renderskill(father, skill) {
-      const skillDiv = doc.createElement('div');
-      skillDiv.setAttribute("class", "skill");
-      this._addLevel(skillDiv, skill);
-      this._addName(skillDiv, skill);
+      const skillDiv = this._createElement(
+        'div', {"class": "skill"}, '', father);
+      this._createElement(
+        'a', {"class": "skill__level-number"}, skill.level, skillDiv);
+      this._createElement(
+        'a', {"class": "skill__level-text"}, "lvl", skillDiv);
+      this._createElement('a', {"class": "skill__name"}, skill.name, skillDiv);
       this._addProgressBar(skillDiv, skill);
-      this._addExp(skillDiv, skill);
-      father.appendChild(skillDiv);
+      this._createElement(
+        'a', {"class": "skill_experience"},
+        `${skill.expInThisLevel}/${skill.expTillNextLevel}`, skillDiv
+      );
     }
 
     render () {
-      skillsView = LifeGamification.skillsCollection.data;
-      this.allSkills = doc.createElement('div');
-      this.allSkills.setAttribute("id", "all-skills");
-      this.rootEl.appendChild(this.allSkills);
-      for (let key in skillsView) {
-        this.renderskill(this.allSkills, skillsView[key]);
+      this.rootEl.innerHTML = '';
+      this.allSkills = this._appendNewElement('div', {'id': 'all-skills'});
+      const data = this.model.data;
+      for (let key in data) {
+        this.renderskill(this.allSkills, data[key]);
       }
+      this.model.addEventListener('changed', () => {this.render()});
     }
   }
 
-  //Functions to both Home and Edit views.
-
-  LifeGamification.view.home.viewLevelAndExp = function (skillsCollection, skill) {
-    const number = skillsCollection.findIndex(function (element) {
-      return element === skill;
-    });
-    $(`.level${number}`).html(`${skill.level}`);
-    $(`.name${number}`).html(`${skill.name}`);
-    $(`.exp${number}`).html(`
-      ${skill.expInThisLevel}/${skill.expTillNextLevel}`);
-
-    let percent = Math.floor(
-      100 * skill.expInThisLevel / skill.expTillNextLevel);
-    $(`.fill${number}`).html(`${percent}%`);
-    $(`.fill${number}`).css('width', `${percent}%`);
-  }
-
-  LifeGamification.view.home.skillHTML = function (number) {
-    return (`
-      <a class="skill__level-number level${number}">-1</a>
-      <a class="skill__level-text">lvl</a>
-      <a class="skill__name name${number}">Skillname</a>
-      <div class="progress-bar__wrapper">
-          <span class="progress-bar__container">
-              <span class="progress-bar__container-fill fill${number}">-1%</span>
-          </span>
-          <div class="progress-bar__buttons">
-              <input class="progress-bar__add-input" id="addVal${number}" type="number" value="1">
-              <span class="progress-bar__add-button" id="add${number}"> +</span>
-          </div>
-        </div>
-        <a class="skill__experience exp${number}">-1/-1</a>
-    </div>
-    `);
-  }
-
-  LifeGamification.view.home.handleSkillButtons = function () {
-    const update_exp = function (skillNr) {
-      const addedExp = parseInt($("#addVal" + skillNr).val());
-      $("#addVal" + skillNr).val('1');
-      const skill = skillsView[skillNr];
-      LifeGamification.skillsCollection.updateExp(skill, addedExp)
-        .then((skill) => {
-          LifeGamification.view.home.viewLevelAndExp(skillsView, skill);
-        });
-    }
-    $("#all-skills").on("click", ".progress-bar__add-button", function () {
-      const skillNr = this.id.replace('add', '');
-      update_exp(skillNr);
-    });
-    $("#all-skills").on("keyup", ".progress-bar__add-input", function (event) {
-      if (event.keyCode === 13) {
-        const skillNr = this.id.replace('addVal', '');
-        update_exp(skillNr);
-      }
-    });
-  }
-
-  //End of functions to both Home and Edit views.
-
-  const skillHomeHTML = function (number) {
-    return (`<div class="skill">`) + LifeGamification.view.home.skillHTML(number);
-  }
-
-  const appendHomeSkill = function (skill) {
-    $('#all-skills').append(skillHomeHTML(skillsView.length));
-    skillsView.push(skill);
-    LifeGamification.view.home.viewLevelAndExp(skillsView, skill);
-  }
-
-  const render = function (skills) {
-    let skillsEmpty = true;
-
-    $('#content').append(`<div id="all-skills"> </div>`)
-    for (let name in skills) {
-      skillsEmpty = false;
-      appendHomeSkill(skills[name]);
-    }
-
-    if (skillsEmpty) {
-      $('#content').append(`<div id="welcome-message"> ${welcome_message}</div>`)
-    }
-    LifeGamification.view.home.handleSkillButtons();
-  }
-
-  LifeGamification.view.home.render = function () {
-    skillsView = [];
-    render(LifeGamification.skillsCollection.data);
-  }
-
-  LifeGamification.view.home = new HomeView();
+  LifeGamification.view.home = new LifeGamification.view.HomeView();
 })();

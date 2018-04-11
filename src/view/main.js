@@ -38,7 +38,7 @@
     setMenu () {
       this.menuConfig = [
         {'name': 'Home', 'view': LifeGamification.view.home},
-        {'name': 'Edit', 'view': LifeGamification.edit},
+        {'name': 'Edit', 'view': LifeGamification.view.edit},
         {'name': 'Timer', 'view': LifeGamification.timer},
         {'name': 'History', 'view': LifeGamification.history},
         {'name': 'Import-Export', 'view': LifeGamification.importExport},
