@@ -1,30 +1,31 @@
 (function () {
   'use strict';
 
-  Abstract.view = class View {
-    constructor(models, controller) {
-      this.model = model;
-      this.controller = controller;
+  Abstract.View = class View {
+    constructor(model, controller) {
+      this._model = model;
+      this._controller = controller;
+      this._rootEl = null;
     }
 
-    getModel() {
-      return this.model;
+    get model() {
+      return this._model;
     }
-    getController() {
-      return this.controller;
+    get controller() {
+      return this._controller;
     }
-    getRootEl() {
-      return this.rootEl;
+    get rootEl() {
+      return this._rootEl;
     }
 
-    setController(newController) {
-      this.controller = newController;
+    set controller(newController) {
+      this._controller = newController;
     }
-    setModel(newModel) {
-      this.model = newModel;
+    set model(newModel) {
+      this._model = newModel;
     }
-    setRootEl(el) {
-      this.rootEl = el;
+    set rootEl(el) {
+      this._rootEl = el;
     }
     render() {
 
