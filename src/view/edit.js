@@ -41,7 +41,7 @@
       const skillNr = this.id.replace('remove', '');
       LifeGamification.skillsCollection.removeSkill(skillsView[skillNr])
         .then(() => {
-          LifeGamification.view.main.currentView = LifeGamification.edit;
+          LifeGamification.view.main.contentView = LifeGamification.edit;
         });
     });
   }

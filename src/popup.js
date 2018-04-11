@@ -1,4 +1,5 @@
 "use strict"
+const doc = document;
 const LifeGamification = {};
 let skillsNames = [];
 const maxLevel = 210;
