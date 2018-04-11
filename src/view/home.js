@@ -52,9 +52,7 @@
       }
     }
 
-    renderskill(father, skill) {
-      const skillDiv = this._createElement(
-        'div', {"class": "skill"}, '', father);
+    renderSkillDivContent(skillDiv, skill) {
       this._createElement(
         'a', {"class": "skill__level-number"}, skill.level, skillDiv);
       this._createElement(
@@ -67,12 +65,18 @@
       );
     }
 
+    renderSkill(father, skill) {
+      const skillDiv = this._createElement(
+        'div', {"class": "skill"}, '', father);
+      this.renderSkillDivContent(skillDiv, skill);
+    }
+
     render () {
       this.rootEl.innerHTML = '';
       this.allSkills = this._appendNewElement('div', {'id': 'all-skills'});
       const data = this.model.data;
       for (let key in data) {
-        this.renderskill(this.allSkills, data[key]);
+        this.renderSkill(this.allSkills, data[key]);
       }
       this.model.addEventListener('changed', () => {this.render()});
     }

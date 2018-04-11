@@ -106,15 +106,15 @@
           .then(function() {
             resolve(newSkill);
           });
+        this.fireEvent('changed');
       });
     }
 
-    removeSkill (skill) {
+    remove(skill) {
       return new Promise((resolve, reject) => {
         const skillName = skill.name;
         delete this.data[skillName];
-        this.save()
-          .then(resolve());
+        this.fireEvent('changed');
       });
     }
   };

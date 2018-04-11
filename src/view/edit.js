@@ -1,70 +1,54 @@
 (function(){
-  LifeGamification.edit = {};
-  LifeGamification.edit.name = "Edit";
 
-  let skillsView = [];
-
-  const skillEditHTML = function (number) {
-    return (`
-    	<div class="skill">
-        <img src="../../assets/x.svg"class="skill__remove" id="remove${number}">
-      `) + LifeGamification.view.home.skillHTML(number);
-  }
-
-  const appendEditSkill = function (skill) {
-    $('#all-skills').append(skillEditHTML(skillsView.length));
-    skillsView.push(skill);
-    LifeGamification.view.home.viewLevelAndExp(skillsView, skill);
-  }
-
-  const render = function (skills) {
-    skillsView = [];
-    $('#content').html('');
-    $('#content').append(`<div id="all-skills"> </div>`)
-    $('#content').append(`<div id="add-skill"> </div>`)
-    for (let name in skills) {
-      appendEditSkill(skills[name]);
-    }
-    $('#add-skill').html(`
-      <textarea id="add-skill__name" placeholder="New skill name"></textarea>
-      <div id="add-skill__button">
-        <span id="add-skill__button-helper"></span><img src="../../assets/plus.svg" id="add-skill__button-icon">
-      </div>
-    `);
-    handleAddSkillButton();
-    LifeGamification.view.home.handleSkillButtons();
-    appendRemoveButtons();
-  }
-
-  const appendRemoveButtons = function () {
-    $("#all-skills").on("click", ".skill__remove", function () {
-      const skillNr = this.id.replace('remove', '');
-      LifeGamification.skillsCollection.removeSkill(skillsView[skillNr])
-        .then(() => {
-          LifeGamification.view.main.contentView = LifeGamification.edit;
-        });
-    });
-  }
-
-  LifeGamification.edit.render = function () {
-    render(LifeGamification.skillsCollection.data);
-  }
-
-  const handleAddSkillButton = function () {
-    const add_skill = function () {
-      const skillName = $('#add-skill__name').val();
-      $('#add-skill__name').val('');
-      LifeGamification.skillsCollection.addSkill(skillName)
-        .then((skill) => {
-          LifeGamification.edit.render();
-        });
+  const EditView = class EditView extends LifeGamification.view.HomeView {
+    constructor() {
+      super();
+      this.name = 'Edit';
     }
 
-    $('#add-skill__button-icon').click(add_skill);
-    $('#add-skill__name').keyup(function (event) {
-      if (event.keyCode === 13) {
-        add_skill();
+    renderSkillDivContent(skillDiv, skill) {
+      const removeButton = this._createElement(
+        'img', {
+          "class": "skill__remove",
+          "src": "../../assets/x.svg"
+        }, '', skillDiv);
+      removeButton.onclick = () => {
+        this.model.remove(skill);
       }
-    });
+      super.renderSkillDivContent(skillDiv, skill);
+    }
+
+    _createAddSkill () {
+      const addSkill = this._appendNewElement('div', {"id": "add-skill"})
+      const addSkillText = this._createElement(
+        'textarea', {"id": "add-skill__name", "placeholder": "New skill name"},
+        '', addSkill
+      );
+      addSkillText.onkeyup = (event) => {
+        if (event.keyCode === 13) {
+          this.model.addSkill(addSkillText["value"]);
+        }
+      }
+      const addSkillButton = this._createElement(
+        'div', {"id": "add-skill__button"}, '', addSkill
+      );
+      addSkillButton.onclick = () => {
+        this.model.addSkill(addSkillText["value"]);
+      };
+      this._createElement(
+        'span', {"id": "add-skill__button-helper"}, '', addSkillButton);
+      this._createElement(
+        'img', {
+          "id": "add-skill__button-icon",
+          "src": "../../assets/plus.svg"
+        }, '', addSkillButton);
+    }
+
+    render() {
+      super.render();
+      this._createAddSkill();
+    }
   }
+
+  LifeGamification.view.edit = new EditView();
 })();
