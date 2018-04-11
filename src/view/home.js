@@ -49,7 +49,7 @@
       const addedExp = parseInt($("#addVal" + skillNr).val());
       $("#addVal" + skillNr).val('1');
       const skill = skillsView[skillNr];
-      LifeGamification.models.updateExp(skill, addedExp)
+      LifeGamification.skillsCollection.updateExp(skill, addedExp)
         .then((skill) => {
           LifeGamification.home.viewLevelAndExp(skillsView, skill);
         });
@@ -95,6 +95,6 @@
 
   LifeGamification.home.render = function () {
     skillsView = [];
-    render(LifeGamification.skillsCollection);
+    render(LifeGamification.skillsCollection.data);
   }
 })();

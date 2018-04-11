@@ -39,7 +39,7 @@
   const appendRemoveButtons = function () {
     $("#all-skills").on("click", ".skill__remove", function () {
       const skillNr = this.id.replace('remove', '');
-      LifeGamification.models.removeSkill(skillsView[skillNr])
+      LifeGamification.skillsCollection.removeSkill(skillsView[skillNr])
         .then(() => {
           LifeGamification.view.main.currentView = LifeGamification.edit;
         });
@@ -47,14 +47,14 @@
   }
 
   LifeGamification.edit.render = function () {
-    render(LifeGamification.skillsCollection);
+    render(LifeGamification.skillsCollection.data);
   }
 
   const handleAddSkillButton = function () {
     const add_skill = function () {
       const skillName = $('#add-skill__name').val();
       $('#add-skill__name').val('');
-      LifeGamification.models.addSkill(skillName)
+      LifeGamification.skillsCollection.addSkill(skillName)
         .then((skill) => {
           LifeGamification.edit.render();
         });

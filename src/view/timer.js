@@ -3,7 +3,7 @@
   LifeGamification.timer.name = "Timer";
   const minute = 60000;
   const second = 1000;
-  const skillsView = [];
+  let skillsView = [];
 
   const appendSkillTimer = function(skill, number){
     if(skill.timer.startTime){
@@ -22,7 +22,7 @@
 
   LifeGamification.timer.render = function () {
     LifeGamification.timer.clear();
-    render(LifeGamification.skillsCollection);
+    render(LifeGamification.skillsCollection.data);
     LifeGamification.timer.handleTimerFinishButtons();
   }
 
@@ -58,7 +58,7 @@
       </div>
     `;
     $("#timer").html(code);
-    handleTimerStartButton();
+    handleTimerStartButton(skills);
     handleTimer();
   }
 
@@ -66,10 +66,10 @@
     $(`#time${number}`).html(timeText);
   }
 
-  const handleTimerStartButton = function () {
+  const handleTimerStartButton = function (skills) {
     $(".timer__start-button").click(function(){
       const skillName = $(".timer__select-skill").val();
-      const skill = LifeGamification.skillsCollection[skillName];
+      const skill = skills[skillName];
       const typeName = $('.timer__task-type').val();
       let info = {};
       if(typeName === "countdown"){
@@ -180,6 +180,8 @@
     const skill = skillsView[skillNr];
     LifeGamification.models.finishWork(skill)
       .then(function(timeWorked){
+        LifeGamification.timer.clear();
+        skillsView = [];
         alert(`You have gained ${timeWorked} experience in ${skill.name}`);
         LifeGamification.view.main.currentView = LifeGamification.timer;
       });

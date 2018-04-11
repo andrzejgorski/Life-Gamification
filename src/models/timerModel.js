@@ -48,6 +48,8 @@
     }
 
     getWorkInfo() {
+      if (!this.startTime)
+        return null;
       const type = this.history[this.startTime].type;
       const timeLapsed = LifeGamification.utils.calcTime(this.startTime);
       if(type.name === "normal"){
@@ -104,7 +106,7 @@
   LifeGamification.models.startWork = function (skill, type) {
     return new Promise((resolve, reject) => {
       skill.timer.startWork(type);
-      saveSkillsCollection()
+      LifeGamification.skillsCollection.save()
         .then(resolve);
     });
   }
@@ -112,7 +114,7 @@
   LifeGamification.models.finishWork = function (skill) {
     return new Promise((resolve, reject) => {
       const addedExp = Math.floor(skill.timer.finishWork() / 60000);
-      LifeGamification.models.updateExp(skill, addedExp)
+      LifeGamification.skillsCollection.updateExp(skill, addedExp)
         .then(function(){
           resolve(addedExp);
         });

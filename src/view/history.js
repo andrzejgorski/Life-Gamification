@@ -3,7 +3,7 @@
   LifeGamification.history.name = "History";
 
   LifeGamification.history.render = function() {
-    render(LifeGamification.skillsCollection);
+    render(LifeGamification.skillsCollection.data);
   }
 
   const render = function(skills){
@@ -32,7 +32,7 @@
   const handleHistoryFilterButton = function(){
     $(".history__filter-button").click(function(){
       const skillName = $(".history__select-skill").val();
-      const skill = LifeGamification.skillsCollection[skillName];
+      const skill = LifeGamification.skillsCollection.data[skillName];
       const minTime = $(".history__min-time").val();
       const maxTime = $(".history__max-time").val();
       const sessionsNum = skill.timer.findNumberOfSessions(minTime, maxTime);

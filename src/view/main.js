@@ -28,8 +28,8 @@
     startView () {
       this._createMenu();
       LifeGamification.repository.getSkills()
-        .then(LifeGamification.models.createSkillsCollection)
-        .then(function () {
+        .then(function (json) {
+          LifeGamification.skillsCollection.loadData(json);
           LifeGamification.view.main.currentView = LifeGamification.home;
         })
     }
