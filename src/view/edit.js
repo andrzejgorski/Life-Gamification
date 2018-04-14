@@ -19,14 +19,10 @@
   }
 
   const EditView = class EditView extends LifeGamification.view.HomeView {
-    _initChildren() {
-      this.viewChildren = [];
-      for (let index in this.model.data) {
-        const skill = this.model.data[index];
-        const editSkill = new EditSkill(skill);
-        editSkill.removeFunc = (skill) => this.model.remove(skill);
-        this.viewChildren.push(editSkill);
-      }
+    _addViewChild(skill) {
+      const editSkill = new EditSkill(skill);
+      editSkill.removeFunc = (skill) => this.model.remove(skill);
+      this.viewChildren.push(editSkill);
     }
 
     _createAddSkill () {

@@ -77,11 +77,15 @@
   LifeGamification.view.SkillView = SkillView;
 
   LifeGamification.view.HomeView = class HomeView extends Abstract.View {
+    _addViewChild(skill) {
+      this.viewChildren.push(new SkillView(skill));
+    }
+
     _initChildren() {
       this.viewChildren = [];
       for (let index in this.model.data) {
         const skill = this.model.data[index];
-        this.viewChildren.push(new SkillView(skill));
+        this._addViewChild(skill);
       }
     }
 
