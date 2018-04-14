@@ -3,6 +3,7 @@
   LifeGamification.importExport.name = "Import-Export";
 
   LifeGamification.importExport.render = function () {
+  $('#content').html('');
   $('#content').append(`<div id="import-export"> </div>`)
 	$('#import-export').html(`
     <button class="import-export__button" id="import">Import</button>

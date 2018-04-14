@@ -4,7 +4,6 @@
     To add your first skill go to Edit skills.</p>`;
 
   class SkillView extends Abstract.View {
-
     _addTitle() {
       this._appendNewElement(
         'a', {"class": "skill__level-number"}, this.model.level);

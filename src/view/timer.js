@@ -21,6 +21,7 @@
   }
 
   LifeGamification.timer.render = function () {
+    $('#content').html('');
     LifeGamification.timer.clear();
     render(LifeGamification.skillsCollection.data);
     LifeGamification.timer.handleTimerFinishButtons();

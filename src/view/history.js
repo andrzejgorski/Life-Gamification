@@ -3,6 +3,7 @@
   LifeGamification.history.name = "History";
 
   LifeGamification.history.render = function() {
+    $('#content').html('');
     render(LifeGamification.skillsCollection.data);
   }
 

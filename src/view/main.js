@@ -44,7 +44,7 @@
     render () {
       this._createIcon(() => {
         this.eventFunc(this._menuConfig['Home']);
-        this.activeElem = this._menuTags['Home'];
+        this.activeElem = this.homeView;
       });
       this._menuTags = {};
       for (let name in this._menuConfig) {
@@ -76,12 +76,9 @@
     }
 
     set contentView(view) {
-      // TODO Move it to viewMenu
       if (!!(this.contentView) && !!(this.contentView.clear)) {
         this.contentView.clear();
       }
-      // TODO Remove it
-      $("#content").html("");
       this._contentView = view;
       if (!!(this.contentView)) {
         this.contentView.rootEl = this._contentTag;
