@@ -1,11 +1,6 @@
 (function(){
 
   const EditView = class EditView extends LifeGamification.view.HomeView {
-    constructor() {
-      super();
-      this.name = 'Edit';
-    }
-
     renderSkillDivContent(skillDiv, skill) {
       const removeButton = this._createElement(
         'img', {
@@ -50,5 +45,5 @@
     }
   }
 
-  LifeGamification.view.edit = new EditView();
+  LifeGamification.view.EditView = EditView;
 })();

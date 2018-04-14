@@ -2,47 +2,56 @@
   LifeGamification.view = {};
 
   class ViewMenu extends Abstract.View {
-    constructor() {
+    constructor(menuConfig) {
       super();
-      this.menuConfig = []
+      this._menuConfig = menuConfig;
       this.eventFunc = (_) => {console.log("eventFunc not set");};
+      this._activeElem = null;
     }
 
     _createIcon(click) {
-      const img = doc.createElement('img');
-      img.src = "../../assets/iconwhite.svg";
-      img.setAttribute("class", "header-bar__menu-icon");
+      const iconn = this._appendNewElement('a', {
+        "class": "header__menu-icon"
+      }, '');
 
-      const icon = doc.createElement('a');
-      icon.setAttribute("class", "header__menu-icon");
-      icon.appendChild(img);
-      icon.onclick = click;
-      this.rootEl.appendChild(icon);
+      this._createElement('img', {
+        "src": "../../assets/iconwhite.svg",
+         "class": "header-bar__menu-icon"
+      }, '', iconn);
+      iconn.onclick = click;
     }
 
-    _createMenuTag(menuObj) {
-      const menuTag = doc.createElement('a');
-      menuTag.setAttribute("id", menuObj.name);
-      menuTag.setAttribute("class", "header__menu-text");
-      menuTag.innerHTML = menuObj.name;
-      menuTag.onclick = () => this.eventFunc(menuObj.view);
-      this.rootEl.appendChild(menuTag);
+    set activeElem (tag) {
+      if (!!(this._activeElem)) {
+        this._activeElem.classList.remove('active');
+      }
+      tag.classList.add('active');
+      this._activeElem = tag;
+    }
+
+    _createMenuTag(name, view) {
+      const menuTag = this._appendNewElement('a', {
+        "id": name,
+        "class": "header__menu-text"
+      }, name);
+      menuTag.onclick = () => {
+        this.activeElem = menuTag;
+        this.eventFunc(view);
+      }
+      if (name === 'Home') {
+        this.homeView = menuTag;
+        this.homeView.classList.add('active');
+      }
     }
 
     render () {
-      this._createIcon(() => {this.eventFunc(LifeGamification.view.home);});
-      this.setMenu();
-      this.menuConfig.forEach((obj) => this._createMenuTag(obj));
-    }
-
-    setMenu () {
-      this.menuConfig = [
-        {'name': 'Home', 'view': LifeGamification.view.home},
-        {'name': 'Edit', 'view': LifeGamification.view.edit},
-        {'name': 'Timer', 'view': LifeGamification.timer},
-        {'name': 'History', 'view': LifeGamification.history},
-        {'name': 'Import-Export', 'view': LifeGamification.importExport},
-      ]
+      this._createIcon(() => {
+        this.eventFunc(this._menuConfig['Home']);
+        this.activeElem = this.homeView;
+      });
+      for (let name in this._menuConfig) {
+        this._createMenuTag(name, this._menuConfig[name]);
+      }
     }
   }
 
@@ -50,18 +59,29 @@
     constructor() {
       super();
       this.rootEl = doc.body;
-      this.viewMenu = new ViewMenu();
-      this._contentView = null;
+      this._createSubViews();
+      this.viewMenu = new ViewMenu(this._subViews);
+      this._contentView = this._subViews['Home'];
+    }
+
+    _createSubViews () {
+      this._subViews = {
+        'Home': new LifeGamification.view.HomeView(
+          LifeGamification.skillsCollection),
+        'Edit': new LifeGamification.view.EditView(
+          LifeGamification.skillsCollection),
+        'Timer': LifeGamification.timer,
+        'History': LifeGamification.history,
+        'Import-Export': LifeGamification.importExport,
+      }
     }
 
     set contentView(view) {
-      if (!!(this.contentView)) {
-        $(`#${this.contentView.name}`).removeClass('active');
-        if (!!(this.contentView.clear)) {
-          this.contentView.clear();
-        }
+      // TODO Move it to viewMenu
+      if (!!(this.contentView) && !!(this.contentView.clear)) {
+        this.contentView.clear();
       }
-      $(`#${view.name}`).addClass('active');
+      // TODO Remove it
       $("#content").html("");
       this._contentView = view;
       if (!!(this.contentView)) {
@@ -75,8 +95,7 @@
     }
 
     _createContentTag() {
-      this._contentTag = doc.createElement('div');
-      this._contentTag.id = "content";
+      this._contentTag = this._createElement('div', {'id': 'content'}, '');
       this.rootEl.appendChild(this._contentTag);
       return this._contentTag;
     }
@@ -103,9 +122,7 @@
     LifeGamification.repository.getSkills()
       .then((json) => {
         LifeGamification.skillsCollection.loadData(json);
-        LifeGamification.view.home = new LifeGamification.view.HomeView();
         LifeGamification.view.main.render();
-        main.contentView = LifeGamification.view.home;
       })
   }
 

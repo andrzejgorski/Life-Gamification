@@ -68,24 +68,22 @@
   }
 
   LifeGamification.view.HomeView = class HomeView extends Abstract.View {
-    constructor() {
-      super(LifeGamification.skillsCollection, null);
-      this.viewChildren = []
+    _initChildren() {
+      this.viewChildren = [];
       for (let index in this.model.data) {
         const skill = this.model.data[index];
         this.viewChildren.push(new SkillView(skill))
       }
-      this.name = 'Home';
     }
 
     renderSkill(father, skill) {
       this.renderSkillDivContent(skillDiv, skill);
     }
 
-    render () {
+    render() {
       this.rootEl.innerHTML = '';
       this.allSkills = this._appendNewElement('div', {'id': 'all-skills'});
-      const data = this.model.data;
+      this._initChildren();
       for (let index in this.viewChildren) {
         let skillDiv = this._createElement(
           'div', {"class": "skill"}, '', this.allSkills);
