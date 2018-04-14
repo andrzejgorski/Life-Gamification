@@ -38,20 +38,19 @@
         this.activeElem = menuTag;
         this.eventFunc(view);
       }
-      if (name === 'Home') {
-        this.homeView = menuTag;
-        this.activeElem = this.homeView;
-      }
+      this._menuTags[name] = menuTag;
     }
 
     render () {
       this._createIcon(() => {
         this.eventFunc(this._menuConfig['Home']);
-        this.activeElem = this.homeView;
+        this.activeElem = this._menuTags['Home'];
       });
+      this._menuTags = {};
       for (let name in this._menuConfig) {
         this._createMenuTag(name, this._menuConfig[name]);
       }
+      this.activeElem = this._menuTags['Home'];
     }
   }
 
