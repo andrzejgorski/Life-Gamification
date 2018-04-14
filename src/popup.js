@@ -8,5 +8,5 @@ document.addEventListener('DOMContentLoaded', function () {
   console.log("Application begins.");
 
   LifeGamification.models.fillExpTable();
-  LifeGamification.view.main.startView();
+  LifeGamification.view.startView();
 });

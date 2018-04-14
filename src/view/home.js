@@ -3,25 +3,28 @@
     <p>Welcome to Life Gamification!<br>
     To add your first skill go to Edit skills.</p>`;
 
-  LifeGamification.view.HomeView = class HomeView extends Abstract.View {
-    constructor() {
-      super(LifeGamification.skillsCollection, null);
-      this.name = 'Home';
+  class SkillView extends Abstract.View {
+
+    render() {
+      this._appendNewElement(
+        'a', {"class": "skill__level-number"}, this.model.level);
+      this._appendNewElement(
+        'a', {"class": "skill__level-text"}, "lvl");
+      this._createElement('a', {"class": "skill__name"}, this.model.name);
+      this._addProgressBar();
+      this._appendNewElement(
+        'a', {"class": "skill_experience"},
+        `${this.model.expInThisLevel}/${this.model.expTillNextLevel}`,
+      );
     }
 
-    _addSkillExp(skill, input) {
-      const addedExp = parseInt(input["value"]);
-      input.setAttribute("value", "1");
-      skill.addExp(addedExp);
-    }
-
-    _addProgressBar(father, skill) {
-      const barWrapper = this._createElement(
-        'div', {"class": "progress-bar__wrapper"}, '', father);
+    _addProgressBar() {
+      const barWrapper = this._appendNewElement(
+        'div', {"class": "progress-bar__wrapper"}, '');
       const container = this._createElement(
         'span', {"class": "progress-bar__container"}, '', barWrapper);
-      let percent = Math.floor(
-        100 * skill.expInThisLevel / skill.expTillNextLevel);
+      const percent = Math.floor(
+        100 * this.model.expInThisLevel / this.model.expTillNextLevel);
 
       this._createElement(
         'span', {
@@ -33,6 +36,10 @@
 
       const pg_buttons = this._createElement(
         'div', {"class": "progress-bar__buttons"}, '', barWrapper);
+      this._createInput(pg_buttons);
+    }
+
+    _createInput(pg_buttons) {
       const input = this._createElement('input', {
           "class": "progress-bar__add-input",
           "type": "number",
@@ -41,33 +48,37 @@
       );
       input.onkeyup = (event) => {
         if (event.keyCode === 13) {
-          this._addSkillExp(skill, input);
+          this._addSkillExp(input);
         }
       };
 
       const addButton = this._createElement(
         'span', {"class": "progress-bar__add-button"}, "+", pg_buttons);
+
       addButton.onclick = () => {
-        this._addSkillExp(skill, input);
+        this._addSkillExp(input);
       }
     }
 
-    renderSkillDivContent(skillDiv, skill) {
-      this._createElement(
-        'a', {"class": "skill__level-number"}, skill.level, skillDiv);
-      this._createElement(
-        'a', {"class": "skill__level-text"}, "lvl", skillDiv);
-      this._createElement('a', {"class": "skill__name"}, skill.name, skillDiv);
-      this._addProgressBar(skillDiv, skill);
-      this._createElement(
-        'a', {"class": "skill_experience"},
-        `${skill.expInThisLevel}/${skill.expTillNextLevel}`, skillDiv
-      );
+    _addSkillExp(input) {
+      const addedExp = parseInt(input["value"]);
+      input.setAttribute("value", "1");
+      this.model.addExp(addedExp);
+    }
+  }
+
+  LifeGamification.view.HomeView = class HomeView extends Abstract.View {
+    constructor() {
+      super(LifeGamification.skillsCollection, null);
+      this.viewChildren = []
+      for (let index in this.model.data) {
+        const skill = this.model.data[index];
+        this.viewChildren.push(new SkillView(skill))
+      }
+      this.name = 'Home';
     }
 
     renderSkill(father, skill) {
-      const skillDiv = this._createElement(
-        'div', {"class": "skill"}, '', father);
       this.renderSkillDivContent(skillDiv, skill);
     }
 
@@ -75,12 +86,13 @@
       this.rootEl.innerHTML = '';
       this.allSkills = this._appendNewElement('div', {'id': 'all-skills'});
       const data = this.model.data;
-      for (let key in data) {
-        this.renderSkill(this.allSkills, data[key]);
+      for (let index in this.viewChildren) {
+        let skillDiv = this._createElement(
+          'div', {"class": "skill"}, '', this.allSkills);
+        this.viewChildren[index].rootEl = skillDiv;
+        this.viewChildren[index].render();
       }
       this.model.addEventListener('changed', () => {this.render()});
     }
   }
-
-  LifeGamification.view.home = new LifeGamification.view.HomeView();
 })();

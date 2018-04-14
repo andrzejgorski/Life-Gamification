@@ -49,6 +49,7 @@
   class LifeGamificationMainView extends Abstract.View {
     constructor() {
       super();
+      this.rootEl = doc.body;
       this.viewMenu = new ViewMenu();
       this._contentView = null;
     }
@@ -94,17 +95,18 @@
         this.contentView.render();
       }
     }
-
-    startView () {
-      this.rootEl = doc.body;
-      this.render();
-      LifeGamification.repository.getSkills()
-        .then((json) => {
-          LifeGamification.skillsCollection.loadData(json);
-          this.contentView = LifeGamification.view.home;
-        })
-    }
   }
 
-  LifeGamification.view.main = new LifeGamificationMainView();
+  LifeGamification.view.startView = function () {
+    LifeGamification.view.main = new LifeGamificationMainView();
+    const main = LifeGamification.view.main;
+    LifeGamification.repository.getSkills()
+      .then((json) => {
+        LifeGamification.skillsCollection.loadData(json);
+        LifeGamification.view.home = new LifeGamification.view.HomeView();
+        LifeGamification.view.main.render();
+        main.contentView = LifeGamification.view.home;
+      })
+  }
+
 })();
