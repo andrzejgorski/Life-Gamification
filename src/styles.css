@@ -93,7 +93,6 @@ img {
 #import-export {
     margin: auto;
     margin-top: 3em;
-    width: 50%;
     min-width: 30em;
 }
 
@@ -277,12 +276,6 @@ img {
     clear: both;
 }
 
-#timer {
-    width: 60%;
-    margin: auto;
-    margin-top: 3em;
-}
-
 .timer__wrapper {
     border-radius: 1em;
     border: 2px solid #C8E8E0;
@@ -369,7 +362,6 @@ img {
 }
 
 #history {
-    width: 60%;
     margin: auto;
     margin-top: 3em;
 }
