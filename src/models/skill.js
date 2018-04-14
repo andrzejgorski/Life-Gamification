@@ -114,7 +114,10 @@
       return new Promise((resolve, reject) => {
         const skillName = skill.name;
         delete this.data[skillName];
-        this.fireEvent('changed');
+        this.save()
+          .then(() => {
+            this.fireEvent('changed');
+          });
       });
     }
   };

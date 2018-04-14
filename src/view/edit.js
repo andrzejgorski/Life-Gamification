@@ -1,16 +1,36 @@
 (function(){
-
-  const EditView = class EditView extends LifeGamification.view.HomeView {
-    renderSkillDivContent(skillDiv, skill) {
-      const removeButton = this._createElement(
+  class EditSkill extends  LifeGamification.view.SkillView {
+    render() {
+      this._appendNewElement(
+        'a', {"class": "skill__level-number"}, this.model.level);
+      this._appendNewElement(
+        'a', {"class": "skill__level-text"}, "lvl");
+      this._appendNewElement('a', {"class": "skill__name"}, this.model.name);
+      const removeButton = this._appendNewElement(
         'img', {
           "class": "skill__remove",
           "src": "../../assets/x.svg"
-        }, '', skillDiv);
+        });
       removeButton.onclick = () => {
-        this.model.remove(skill);
+        this.removeFunc(this.model);
       }
-      super.renderSkillDivContent(skillDiv, skill);
+      this._addProgressBar();
+      this._appendNewElement(
+        'a', {"class": "skill_experience"},
+        `${this.model.expInThisLevel}/${this.model.expTillNextLevel}`,
+      );
+    }
+  }
+
+  const EditView = class EditView extends LifeGamification.view.HomeView {
+    _initChildren() {
+      this.viewChildren = [];
+      for (let index in this.model.data) {
+        const skill = this.model.data[index];
+        const editSkill = new EditSkill(skill);
+        editSkill.removeFunc = (skill) => this.model.remove(skill);
+        this.viewChildren.push(editSkill);
+      }
     }
 
     _createAddSkill () {
