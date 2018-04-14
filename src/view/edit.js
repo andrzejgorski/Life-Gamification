@@ -1,11 +1,6 @@
 (function(){
   class EditSkill extends  LifeGamification.view.SkillView {
-    render() {
-      this._appendNewElement(
-        'a', {"class": "skill__level-number"}, this.model.level);
-      this._appendNewElement(
-        'a', {"class": "skill__level-text"}, "lvl");
-      this._appendNewElement('a', {"class": "skill__name"}, this.model.name);
+    _addRemoveButton() {
       const removeButton = this._appendNewElement(
         'img', {
           "class": "skill__remove",
@@ -14,11 +9,12 @@
       removeButton.onclick = () => {
         this.removeFunc(this.model);
       }
+    }
+    render() {
+      this._addTitle();
+      this._addRemoveButton();
       this._addProgressBar();
-      this._appendNewElement(
-        'a', {"class": "skill_experience"},
-        `${this.model.expInThisLevel}/${this.model.expTillNextLevel}`,
-      );
+      this._addExpTillNextLevel();
     }
   }
 

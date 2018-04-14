@@ -5,17 +5,25 @@
 
   class SkillView extends Abstract.View {
 
-    render() {
+    _addTitle() {
       this._appendNewElement(
         'a', {"class": "skill__level-number"}, this.model.level);
       this._appendNewElement(
         'a', {"class": "skill__level-text"}, "lvl");
       this._appendNewElement('a', {"class": "skill__name"}, this.model.name);
-      this._addProgressBar();
+    }
+
+    _addExpTillNextLevel() {
       this._appendNewElement(
         'a', {"class": "skill_experience"},
         `${this.model.expInThisLevel}/${this.model.expTillNextLevel}`,
       );
+    }
+
+    render() {
+      this._addTitle();
+      this._addProgressBar();
+      this._addExpTillNextLevel();
     }
 
     _addProgressBar() {
