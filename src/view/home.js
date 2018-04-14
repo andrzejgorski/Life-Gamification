@@ -10,7 +10,7 @@
         'a', {"class": "skill__level-number"}, this.model.level);
       this._appendNewElement(
         'a', {"class": "skill__level-text"}, "lvl");
-      this._createElement('a', {"class": "skill__name"}, this.model.name);
+      this._appendNewElement('a', {"class": "skill__name"}, this.model.name);
       this._addProgressBar();
       this._appendNewElement(
         'a', {"class": "skill_experience"},
