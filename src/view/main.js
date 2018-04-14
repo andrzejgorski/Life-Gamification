@@ -40,7 +40,7 @@
       }
       if (name === 'Home') {
         this.homeView = menuTag;
-        this.homeView.classList.add('active');
+        this.activeElem = this.homeView;
       }
     }
 
